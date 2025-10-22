@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serena Glow - Cuidado Natural para sua Pele</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #f8f5f0;
+            --button-color: #e8d9c5;
+            --text-color: #333;
+            --accent-color: #8B7355;
+            --light-accent: #A89A7D;
+            --gold: #d4af37;
+            --light-gold: #f4e4b5;
+            --dark-brown: #5d4037;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Menu Hamburguer */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: var(--button-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--text-color);
+            transition: 0.3s;
+        }
+
+        .hidden-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: var(--button-color);
+            z-index: 999;
+            transition: left 0.3s ease;
+            padding: 80px 20px 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .hidden-menu.active {
+            left: 0;
+        }
+
+        .menu-item {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--bg-color);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-color);
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Header e Logo */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--bg-color) 0%, var(--button-color) 100%);
+            border-bottom: 1px solid var(--light-accent);
+        }
+
+        .logo {
+            max-width: 300px;
+            height: auto;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .logo-placeholder {
+            width: 300px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--button-color) 0%, var(--light-gold) 100%);
+            margin: 0 auto;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--dark-brown);
+            font-size: 1.8rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+        }
+
+        /* Seções */
+        .section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+            font-size: 2.2em;
+            position: relative;
+            padding-bottom: 15px;
+            font-family: 'Georgia', serif;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gold);
+        }
+
+        /* Banner de Produtos */
+        .products-banner {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--button-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid var(--button-color);
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(139,115,85,0.1) 0%, rgba(226,212,184,0.2) 100%);
+        }
+
+        .product-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .product-price {
+            color: var(--dark-brown);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .product-description {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .promo-badge {
+            background: var(--gold);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-top: 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        /* Sobre a Marca */
+        .about-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--button-color);
+        }
+
+        .about-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1em;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+        }
+
+        /* Formulários */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--button-color);
+            border-radius: 5px;
+            background: white;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: var(--dark-brown);
+            transform: translateY(-2px);
+        }
+
+        /* Quiz Styles (mantendo o estilo original) */
+        .quiz-container {
+            max-width: 900px;
+            margin: 18px auto;
+            background: #102437;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+        }
+
+        .quiz-title {
+            text-align: center;
+            color: #6b8ef3;
+            margin: 0 0 6px 0;
+            font-size: 1.6rem;
+        }
+
+        .quiz-lead {
+            text-align:center;
+            color: #c9d6e8;
+            margin: 6px 0 18px;
+        }
+
+        .question {
+            margin-bottom: 14px;
+            padding: 14px;
+            background: #17344d;
+            border-radius: 10px;
+        }
+
+        .qtitle {
+            font-weight:700;
+            margin-bottom: 10px;
+            color: #f1f1f1;
+            font-size: 1rem;
+        }
+
+        .options {
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+
+        .option-card {
+            flex: 1 1 calc(50% - 10px);
+            min-width: 140px;
+            background: #1e3d5c;
+            border-radius: 10px;
+            padding: 12px 14px;
+            cursor: pointer;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            border: 2px solid transparent;
+            transition: border-color .18s ease, transform .06s ease, background .12s ease;
+            user-select: none;
+        }
+
+        .option-card:hover { 
+            transform: translateY(-2px); 
+            background: #25476b;
+        }
+
+        .option-text { 
+            color: #f1f1f1; 
+            font-size: 0.96rem; 
+            line-height:1.2; 
+        }
+
+        .option-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+
+        .option-card.selected {
+            border-color: #89a7ff;
+            box-shadow: 0 6px 18px rgba(24,64,181,0.06);
+            background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+        }
+
+        .quiz-actions {
+            display:flex;
+            gap:10px;
+            margin-top:14px;
+        }
+
+        .quiz-btn{
+            background: #6b8ef3;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            flex: 1 1 auto;
+            transition: background 0.3s ease;
+        }
+
+        .quiz-btn:hover {
+            background: #5a7de0;
+        }
+
+        .quiz-btn.secondary{
+            background: transparent;
+            color: #c9d6e8;
+            border: 1px solid rgba(200,215,255,0.06);
+        }
+
+        .quiz-btn.secondary:hover {
+            background: rgba(200,215,255,0.1);
+        }
+
+        .result {
+            margin-top: 16px;
+            background: #1c3e5a;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #f1f1f1;
+        }
+
+        .note { 
+            font-size:0.92rem; 
+            color: #c9d6e8; 
+            margin-top:8px 
+        }
+
+        /* Categorias de Produtos */
+        .category-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            color: var(--accent-color);
+            font-size: 1.5em;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-accent);
+            font-family: 'Georgia', serif;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--button-color);
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-top: 1px solid var(--light-accent);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .social-link {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--dark-brown);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .option-card {
+                flex: 1 1 100%;
+            }
+            
+            .section {
+                padding: 20px 10px;
+            }
+            
+            .hidden-menu {
+                width: 250px;
+            }
+            
+            .logo-placeholder {
+                width: 250px;
+                height: 80px;
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 1.7em;
+            }
+            
+            .quiz-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Hamburguer -->
+    <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav class="hidden-menu" id="hiddenMenu">
+        <button class="menu-item" onclick="showSection('home')">Página Inicial</button>
+        <button class="menu-item" onclick="showSection('catalog')">Catálogo de Produtos</button>
+        <button class="menu-item" onclick="showSection('contact')">Contato</button>
+        <button class="menu-item" onclick="showSection('satisfaction')">Pesquisa de Satisfação</button>
+        <button class="menu-item" onclick="showSection('quiz')">Quiz do Tipo de Pele</button>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Conteúdo Principal -->
+    <main>
+        <!-- Página Inicial -->
+        <section id="home" class="section">
+            <div class="header">
+                <div class="logo-placeholder">
+                    Serena Glow
+                </div>
+                <h1>Bem-vindo à Serena Glow</h1>
+                <p>Cuidado natural para todos os tipos de pele</p>
+            </div>
+
+            <div class="products-banner">
+                <h2 class="section-title">Nossas Fragrâncias Mais Vendidas</h2>
+                
+                <h3 class="category-title">Para Pele Seca</h3>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="images/lavanda_mel_liquido_1.png" alt="Sabonete Líquido - Pele Seca">
+                        </div>
+                        <div class="product-title">Sabonete Líquido - Pele Seca</div>
+                        <div class="product-price">R$ 24,90</div>
+                        <div class="product-description">Hidratação intensa com lavanda e mel para peles que precisam de nutrição extra.
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="images\lavanda_mel_barra.png" alt="Sabonete Barra - Pele Seca">
+                        </div>
+                        <div class="product-title">Sabonete em Barra - Pele Seca</div>
+                        <div class="product-price">R$ 12,90</div>
+                        <div class="product-description">Suavidade e proteção com ingredientes naturais que respeitam sua pele.</div>
+                    </div>
+                </div>
+
+                <h3 class="category-title">Para Pele Mista</h3>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="images\pele_mista_limao_liquido.png" alt="Sabonete Liquido - Pele Mista">
+                        </div>
+                        <div class="product-title">Sabonete Líquido - Pele Mista</div>
+                        <div class="product-price">R$ 24,90</div>
+                        <div class="product-description">Equilíbrio perfeito para peles que variam entre secas e oleosas.</div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="images\pele_mista_limão_barra.png" alt="Sabonete Barra - Pele Mista">
+                        </div>
+                        <div class="product-title">Sabonete em Barra - Pele Mista</div>
+                        <div class="product-price">R$ 12,90</div>
+                        <div class="product-description">Frescor natural que controla a oleosidade sem ressecar.</div>
+                    </div>
+                </div>
+
+                <h3 class="category-title">Para Pele Oleosa</h3>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="images\toque_detox_tea_tree_liquido.png" alt="Sabonete Liquido - Pele Oleosa">
+                        </div>
+                        <div class="product-title">Sabonete Líquido - Pele Oleosa</div>
+                        <div class="product-price">R$ 24,90</div>
+                        <div class="product-description">Limpeza profunda com tea tree para controle eficaz da oleosidade.</div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="images\toque_detox_barra.png" alt="Sabonete Barra - Pele Oleosa">
+                        </div>
+                        <div class="product-title">Sabonete em Barra - Pele Oleosa</div>
+                        <div class="product-price">R$ 12,90</div>
+                        <div class="product-description">Detox e purificação para peles que precisam de controle de brilho.</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <div class="promo-badge">PROMOÇÃO ESPECIAL</div>
+                    <h3 style="color: var(--accent-color); margin: 15px 0;">Compre o Kit Completo e Ganhe 15% de Desconto!</h3>
+                    <p>Leve o sabonete líquido e em barra da mesma fragrância e economize</p>
+                    <p><strong>De: R$ 37,80 | Por: R$ 32,13</strong></p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2 class="section-title">Sobre a Serena Glow</h2>
+                <div class="about-text">
+                    <p>Nós somos 4 colegas e sócios que decidimos criar a marca Serena Glow.</p>
+                    <p>A ideia surgiu a partir dos comuns problemas de pele tal quanto os estados e tipos de pele que surgem a partir do uso de marcas de má qualidade que não priorizam o cuidado que sua pele merece e precisa.</p>
+                    <p>Nós não testamos nossos produtos em animais e garantimos a segurança e sustentabilidade do meio ambiente em nossos produtos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catálogo de Produtos -->
+        <section id="catalog" class="section" style="display: none;">
+            <h2 class="section-title">Catálogo Completo</h2>
+            
+            <h3 class="category-title">Para Pele Seca</h3>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                    <div class="product-title">Sabonete Líquido Nutrição Profunda</div>
+                    <div class="product-price">R$ 24,90</div>
+                    <div class="product-description">Lavanda e Mel - Hidratação intensa para peles que precisam de nutrição extra.</div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                    <div class="product-title">Sabonete em Barra Karité & Aveia</div>
+                    <div class="product-price">R$ 12,90</div>
+                    <div class="product-description">Lavanda e Mel - Suavidade e proteção com ingredientes naturais.</div>
+                </div>
+            </div>
+
+            <h3 class="category-title">Para Pele Mista</h3>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                    <div class="product-title">Sabonete Líquido Balance</div>
+                    <div class="product-price">R$ 24,90</div>
+                    <div class="product-description">Limão Siciliano - Equilíbrio perfeito para peles que variam entre secas e oleosas.</div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                    <div class="product-title">Sabonete em Barra Chá Verde</div>
+                    <div class="product-price">R$ 12,90</div>
+                    <div class="product-description">Alecrim e Menta - Frescor natural que controla a oleosidade sem ressecar.</div>
+                </div>
+            </div>
+
+            <h3 class="category-title">Para Pele Oleosa</h3>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                    <div class="product-title">Sabonete Líquido Controle de Oleosidade</div>
+                    <div class="product-price">R$ 24,90</div>
+                    <div class="product-description">Tea Tree - Limpeza profunda para controle eficaz da oleosidade.</div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                    <div class="product-title">Sabonete em Barra Carvão Ativado</div>
+                    <div class="product-price">R$ 12,90</div>
+                    <div class="product-description">Tea Tree - Detox e purificação para peles que precisam de controle de brilho.</div>
+                </div>
+            </div>
+
+            <h3 class="category-title">Para Pele Sensível</h3>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                    <div class="product-title">Sabonete Líquido Calmante</div>
+                    <div class="product-price">R$ 26,90</div>
+                    <div class="product-description">Camomila - Suavidade extrema para peles que precisam de cuidado especial.</div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                    <div class="product-title">Sabonete em Barra Aloe Vera</div>
+                    <div class="product-price">R$ 13,90</div>
+                    <div class="product-description">Aloe Vera - Cuidado delicado que acalma e hidrata peles sensíveis.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contato -->
+        <section id="contact" class="section" style="display: none;">
+            <h2 class="section-title">Entre em Contato</h2>
+            
+            <div style="max-width: 600px; margin: 0 auto;">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Nome:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Assunto:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensagem:</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Enviar Mensagem</button>
+                </form>
+                
+                <div style="margin-top: 40px; text-align: center;">
+                    <h3>Outras formas de contato:</h3>
+                    <p>📧 Email: contato@serenaglow.com</p>
+                    <p>📞 Telefone: (11) 9999-9999</p>
+                    <p>📍 Endereço: Rua dos Cuidados, 123 - São Paulo, SP</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pesquisa de Satisfação -->
+        <section id="satisfaction" class="section" style="display: none;">
+            <h2 class="section-title">Pesquisa de Satisfação</h2>
+            
+            <div style="max-width: 600px; margin: 0 auto;">
+                <form id="satisfactionForm">
+                    <div class="form-group">
+                        <label for="customerName">Seu Nome (opcional):</label>
+                        <input type="text" id="customerName" name="customerName">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productUsed">Qual produto você usou?</label>
+                        <select id="productUsed" name="productUsed" required>
+                            <option value="">Selecione um produto</option>
+                            <option value="liquid_dry">Sabonete Líquido - Pele Seca</option>
+                            <option value="bar_dry">Sabonete em Barra - Pele Seca</option>
+                            <option value="liquid_oily">Sabonete Líquido - Pele Oleosa</option>
+                            <option value="bar_oily">Sabonete em Barra - Pele Oleosa</option>
+                            <option value="liquid_mixed">Sabonete Líquido - Pele Mista</option>
+                            <option value="bar_mixed">Sabonete em Barra - Pele Mista</option>
+                            <option value="liquid_sensitive">Sabonete Líquido - Pele Sensível</option>
+                            <option value="bar_sensitive">Sabonete em Barra - Pele Sensível</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Como você avalia o produto?</label>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px; flex-wrap: wrap;">
+                            <label style="margin: 5px;"><input type="radio" name="rating" value="1" required> 1⭐</label>
+                            <label style="margin: 5px;"><input type="radio" name="rating" value="2"> 2⭐</label>
+                            <label style="margin: 5px;"><input type="radio" name="rating" value="3"> 3⭐</label>
+                            <label style="margin: 5px;"><input type="radio" name="rating" value="4"> 4⭐</label>
+                            <label style="margin: 5px;"><input type="radio" name="rating" value="5"> 5⭐</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="improvements">O que podemos melhorar?</label>
+                        <textarea id="improvements" name="improvements"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recommend">Você recomendaria nossos produtos?</label>
+                        <select id="recommend" name="recommend" required>
+                            <option value="">Selecione</option>
+                            <option value="yes">Sim, com certeza</option>
+                            <option value="maybe">Talvez</option>
+                            <option value="no">Não</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Enviar Pesquisa</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Quiz do Tipo de Pele -->
+        <section id="quiz" class="section" style="display: none;">
+            <div class="quiz-container">
+                <h1 class="quiz-title">Quiz Serena Glow</h1>
+                <p class="quiz-lead">Responda rápido e descubra o sabonete Serena Glow ideal (líquido e barra).</p>
+
+                <form id="quizForm" autocomplete="off" novalidate>
+                    <div id="questions"></div>
+
+                    <div class="quiz-actions">
+                        <button type="button" id="submitBtn" class="quiz-btn">Ver resultado</button>
+                        <button type="button" id="resetBtn" class="quiz-btn secondary">Resetar</button>
+                    </div>
+
+                    <div id="output" class="result" style="display:none;"></div>
+                    <div class="note">Dica: responda com a opção que mais se parece com sua experiência.</div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023 Serena Glow - Todos os direitos reservados</p>
+            <div class="social-links">
+                <a href="#" class="social-link">📘</a>
+                <a href="#" class="social-link">📷</a>
+                <a href="#" class="social-link">🐦</a>
+            </div>
+            <p>Produtos naturais para cuidados com a pele</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Hamburguer
+        const menuToggle = document.getElementById('menuToggle');
+        const hiddenMenu = document.getElementById('hiddenMenu');
+        const overlay = document.getElementById('overlay');
+
+        menuToggle.addEventListener('click', () => {
+            hiddenMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            hiddenMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Navegação entre seções
+        function showSection(sectionId) {
+            // Esconder todas as seções
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Mostrar a seção selecionada
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Fechar menu
+            hiddenMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            
+            // Scroll para o topo
+            window.scrollTo(0, 0);
+        }
+
+        // Formulários
+        document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+            this.reset();
+        });
+
+        document.getElementById('satisfactionForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Obrigado por participar da nossa pesquisa de satisfação!');
+            this.reset();
+        });
+
+        // Código do Quiz (mantido do código fornecido)
+        const perguntas = [
+            { q: '1. Como sua pele fica ao longo do dia?', opts: [
+                'Repuxa e resseca',
+                'Fica normal',
+                'Fica oleosa',
+                'Parte seca e parte oleosa',
+                'Coça ou irrita'
+            ]},
+            { q: '2. Após lavar o rosto, como ela reage?', opts: [
+                'Fica seca',
+                'Continua confortável',
+                'Brilha rápido',
+                'Seca em partes',
+                'Arde ou fica vermelha'
+            ]},
+            { q: '3. Você costuma ter acne ou poros aparentes?', opts: [
+                'Quase nunca',
+                'Poucos',
+                'Muitos',
+                'Só na zona T (testa, nariz e queixo)',
+                'Só quando irritada'
+            ]},
+            { q: '4. Ao toque, como ela costuma ser?', opts: [
+                'Áspera',
+                'Suave',
+                'Oleosa',
+                'Mista',
+                'Fina e sensível'
+            ]},
+            { q: '5. Após o banho, sua pele do corpo...', opts: [
+                'Resseca',
+                'Fica normal',
+                'Fica oleosa',
+                'Depende da região',
+                'Fica vermelha'
+            ]},
+            { q: '6. Com que frequência você come alimentos gordurosos?', opts: [
+                'Quase nunca',
+                'Pouco',
+                'Frequentemente',
+                'Às vezes',
+                'Evito'
+            ]},
+            { q: '7. Você bebe bastante água?', opts: [
+                'Pouco',
+                'Normal',
+                'Muita',
+                'Depende',
+                'Mesmo bebendo, irrita'
+            ]},
+            { q: '8. Sua pele reage quando você come mal?', opts: [
+                'Fica mais seca',
+                'Não muda',
+                'Fica mais oleosa',
+                'Só em partes',
+                'Fica irritada'
+            ]},
+            { q: '9. Como sua pele reage ao sol?', opts: [
+                'Resseca',
+                'Bronzeia bem',
+                'Brilha ou dá espinhas',
+                'Queima em partes',
+                'Queima e fica vermelha'
+            ]},
+            { q: '10. Ao usar produtos novos...', opts: [
+                'Fica seca',
+                'Nada muda',
+                'Fica oleosa',
+                'Reage só em algumas partes',
+                'Arde ou coça'
+            ]}
+        ];
+
+        const recomendacoes = {
+            "Normal": "Sua pele é equilibrada. 🧴 Recomendamos Sabonete Líquido Serena Glow Fresh Care ou 🧼 Sabonete em Barra Serena Glow Neutro Suave.",
+            "Seca": "Sua pele precisa de hidratação. 🧴 Use Serena Glow Nutrição Profunda (líquido) ou 🧼 Serena Glow Karité & Aveia (barra).",
+            "Oleosa": "Sua pele produz mais sebo. 🧴 Use Serena Glow Controle de Oleosidade (líquido) ou 🧼 Serena Glow Carvão Ativado (barra).",
+            "Mista": "Sua pele varia entre seco e oleoso. 🧴 Use Serena Glow Balance (líquido) ou 🧼 Serena Glow Chá Verde (barra).",
+            "Sensível": "Sua pele precisa de cuidado suave. 🧴 Use Serena Glow Calmante de Camomila (líquido) ou 🧼 Serena Glow Aloe Vera (barra)."
+        };
+
+        // Monta as perguntas do quiz
+        const container = document.getElementById('questions');
+        if (container) {
+            perguntas.forEach((p, i) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.innerHTML = `<div class="qtitle">${p.q}</div>`;
+                const opts = document.createElement('div');
+                opts.className = 'options';
+
+                p.opts.forEach((opt, j) => {
+                    const id = `q${i+1}_opt${j}`;
+                    const label = document.createElement('label');
+                    label.className = 'option-card';
+                    label.setAttribute('tabindex','0');
+                    label.innerHTML = `
+                        <input type="radio" name="q${i+1}" id="${id}" value="${opt}">
+                        <span class="option-text">${opt}</span>
+                    `;
+                    label.addEventListener('click', (e) => {
+                        const group = document.getElementsByName(`q${i+1}`);
+                        group.forEach(r => {
+                            const parent = r.closest('.option-card');
+                            if(parent) parent.classList.remove('selected');
+                        });
+                        const radio = label.querySelector('input[type="radio"]');
+                        if(radio){ radio.checked = true; }
+                        label.classList.add('selected');
+                    });
+                    label.addEventListener('keydown', (ev) => {
+                        if(ev.key === ' ' || ev.key === 'Enter'){
+                            ev.preventDefault();
+                            label.click();
+                        }
+                    });
+                    opts.appendChild(label);
+                });
+                div.appendChild(opts);
+                container.appendChild(div);
+            });
+
+            function classifyFromValue(val){
+                if(!val) return null;
+                const v = val.toLowerCase();
+                if(v.includes('irrit') || v.includes('arde') || v.includes('coç') || v.includes('vermelh')) return 'Sensível';
+                if(v.includes('ressec') || v.includes('seca') || v.includes('resseca') ) return 'Seca';
+                if(v.includes('oleosa') || v.includes('brilha') || v.includes('sebo') || v.includes('espinhas')) return 'Oleosa';
+                if(v.includes('mista') || v.includes('parte') || v.includes('depende') || v.includes('zona t') ) return 'Mista';
+                if(v.includes('normal') || v.includes('suave') || v.includes('continu') || v.includes('não muda') || v.includes('pouco')) return 'Normal';
+                return 'Sensível';
+            }
+
+            document.getElementById('submitBtn').addEventListener('click', () => {
+                const counts = { 'Normal':0,'Seca':0,'Oleosa':0,'Mista':0,'Sensível':0 };
+                const missing = [];
+
+                for(let i=1;i<=10;i++){
+                    const sel = document.querySelector(`input[name=q${i}]:checked`);
+                    if(!sel){ missing.push(i); continue; }
+                    const tipo = classifyFromValue(sel.value);
+                    if(tipo && counts.hasOwnProperty(tipo)) counts[tipo]++;
+                }
+
+                const output = document.getElementById('output');
+                if(missing.length){
+                    output.style.display = 'block';
+                    output.innerHTML = `<div style="color:#c9d6e8">Por favor responda todas as perguntas. Faltando: ${missing.join(', ')}</div>`;
+                    return;
+                }
+
+                const max = Math.max(...Object.values(counts));
+                const winners = Object.keys(counts).filter(k => counts[k] === max).slice(0,2);
+
+                output.style.display = 'block';
+                output.innerHTML = winners.map(w => `<p><strong>${w}:</strong> ${recomendacoes[w]}</p>`).join('');
+                output.scrollIntoView({behavior:'smooth', block:'center'});
+            });
+
+            document.getElementById('resetBtn').addEventListener('click', () => {
+                document.getElementById('quizForm').reset();
+                document.getElementById('output').style.display = 'none';
+                document.querySelectorAll('.option-card.selected').forEach(el => el.classList.remove('selected'));
+                window.scrollTo({top:0, behavior:'smooth'});
+            });
+        }
+    </script>
+</body>
+</html>
